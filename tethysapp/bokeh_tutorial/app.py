@@ -31,6 +31,13 @@ class BokehTutorial(TethysAppBase):
                 handler='bokeh_tutorial.controllers.home_handler',
                 handler_type='bokeh'
             ),
+            UrlMap(
+                name='shapes',
+                url='bokeh-tutorial/shapes',
+                controller='bokeh_tutorial.controllers.shapes_with_panel',
+                handler='bokeh_tutorial.controllers.shapes_handler',
+                handler_type='bokeh'
+            ),
         )
 
         return url_maps
