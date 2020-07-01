@@ -8,7 +8,7 @@ class BokehTutorial(TethysAppBase):
 
     name = 'Bokeh Tutorial'
     index = 'bokeh_tutorial:home'
-    icon = 'bokeh_tutorial/images/icon.gif'
+    icon = 'bokeh_tutorial/images/yoda.jpg'
     package = 'bokeh_tutorial'
     root_url = 'bokeh-tutorial'
     color = '#ff7f50'
@@ -28,7 +28,7 @@ class BokehTutorial(TethysAppBase):
                 name='home',
                 url='bokeh-tutorial',
                 controller='bokeh_tutorial.controllers.home',
-                handler-'bokeh_tutorial.controllers.home_handler',
+                handler='bokeh_tutorial.controllers.home_handler',
                 handler_type='bokeh'
             ),
         )
