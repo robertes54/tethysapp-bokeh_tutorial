@@ -27,7 +27,9 @@ class BokehTutorial(TethysAppBase):
             UrlMap(
                 name='home',
                 url='bokeh-tutorial',
-                controller='bokeh_tutorial.controllers.home'
+                controller='bokeh_tutorial.controllers.home',
+                handler-'bokeh_tutorial.controllers.home_handler',
+                handler_type='bokeh'
             ),
         )
 

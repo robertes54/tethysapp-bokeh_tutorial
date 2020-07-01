@@ -1,74 +1,24 @@
 from django.shortcuts import render
 from tethys_sdk.permissions import login_required
 from tethys_sdk.gizmos import Button
+from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource
+from bokeh.sampledata.sea_surface_temperature import sea_surface_temperature
+from bokeh.embed import server_document
 
 @login_required()
 def home(request):
-    """
-    Controller for the app home page.
-    """
-    save_button = Button(
-        display_text='',
-        name='save-button',
-        icon='glyphicon glyphicon-floppy-disk',
-        style='success',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Save'
-        }
-    )
-
-    edit_button = Button(
-        display_text='',
-        name='edit-button',
-        icon='glyphicon glyphicon-edit',
-        style='warning',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Edit'
-        }
-    )
-
-    remove_button = Button(
-        display_text='',
-        name='remove-button',
-        icon='glyphicon glyphicon-remove',
-        style='danger',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Remove'
-        }
-    )
-
-    previous_button = Button(
-        display_text='Previous',
-        name='previous-button',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Previous'
-        }
-    )
-
-    next_button = Button(
-        display_text='Next',
-        name='next-button',
-        attributes={
-            'data-toggle':'tooltip',
-            'data-placement':'top',
-            'title':'Next'
-        }
-    )
-
-    context = {
-        'save_button': save_button,
-        'edit_button': edit_button,
-        'remove_button': remove_button,
-        'previous_button': previous_button,
-        'next_button': next_button
-    }
-
+    script = server_document(request.build_absolute_uri())
+    context = {'script': script}
     return render(request, 'bokeh_tutorial/home.html', context)
+
+
+def home_handler(documnet):
+    df = sea_surface_temperature.copy()
+    source = ColumnDataSource(data=df)
+
+    plot = figure(x_axis_type="datatime", y_range=(0, 25), y_axis_label="Temperature (Celcius)",
+                  height=500, width=800, title="Sea Surface Temperature at 43.18, -70.43")
+    plot.line("time", "temperature", source=source)
+
+    document.add_root(plot)
